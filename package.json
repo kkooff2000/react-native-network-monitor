@@ -1,0 +1,23 @@
+{
+  "name": "react-native-network-monitor",
+  "version": "1.0.1",
+  "description": "Monitor http request like chrome",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkooff2000/react-native-network-monitor.git"
+  },
+  "keywords": [
+    "React",
+    "Native",
+    "HTTP",
+    "Monitor"
+  ],
+  "author": "kkooff2000",
+  "license": "MIT",
+  "bugs": {},
+  "dependencies": {
+    
+  },
+  "homepage": "https://github.com/kkooff2000/react-native-network-monitor.git"
+}
