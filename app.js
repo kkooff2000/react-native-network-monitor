@@ -77,6 +77,10 @@ export const startMonitor = () => {
     logger.enableXHRInterception()
 }
 
+export const getRequestLogger = () => {
+    return logger.getRequests()
+}
+
 class MonitorButton extends Component {
   data = []
 
