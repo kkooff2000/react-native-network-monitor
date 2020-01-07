@@ -57,9 +57,6 @@ export default class RequestDetails extends Component {
         return (
             <View style={styles.shadow}>
                 <View style={styles.container}>
-                    <TouchableOpacity
-                        onPress={() => this.props.onClose()}
-                        style={styles.close}><Text style={styles.closeTitle}>X</Text></TouchableOpacity>
                     <ResultItem request={this.props.request} />
                     <View style={styles.horizontal}>
                         <View style={styles.tabArea}>
@@ -88,12 +85,15 @@ export default class RequestDetails extends Component {
                                 <Text style={styles.text}>Response Body</Text>
                             </TouchableOpacity>
                         </View>
-                        <View>
+                        <View style={styles.content}>
                             <ScrollView>
-                                <Text style={[styles.text, styles.content]}>{this.state.content}</Text>
+                                <Text style={styles.text}>{this.state.content}</Text>
                             </ScrollView>
                         </View>
                     </View>
+                    <TouchableOpacity
+                        onPress={() => this.props.onClose()}
+                        style={styles.close}><Text style={styles.closeTitle}>X</Text></TouchableOpacity>
                 </View>
             </View>
         )
@@ -103,7 +103,6 @@ export default class RequestDetails extends Component {
 const styles = StyleSheet.create({
     shadow: {
         position: 'absolute',
-        flex: 1,
         width: '100%',
         height: '100%',
         backgroundColor: Colors.shadow,
@@ -129,25 +128,27 @@ const styles = StyleSheet.create({
     }, closeTitle: {
         fontSize: 20,
     }, text: {
-        fontSize: 20,
+        fontSize: 16,
         color: Colors.white
     }, horizontal: {
         flexDirection: 'row',
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
+        flex:1,
     }, tabArea: {
-        padding: 20
+        padding: 5
     }, tab: {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.grey,
         flexDirection: 'row',
-        marginTop: 10,
-        marginBottom: 10,
-        padding: 10,
+        marginTop: 8,
+        marginBottom: 8,
+        padding: 5,
+        paddingTop: 10,
+        paddingBottom: 10,
         borderRadius: 5
     }, content: {
-        width: '70%',
-        height: '100%',
-        paddingBottom: 20
+        margin: 5,
+        flex:1
     }
 })

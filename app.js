@@ -57,10 +57,8 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     container: {
-        alignItems: 'center',
         backgroundColor: Colors.dark,
         flex: 1,
-        justifyContent: 'center'
     },
     record: {
         backgroundColor: Colors.red,
