@@ -5,41 +5,50 @@ import Logger from './logger'
 import ResultItem from './ResultItem'
 import Colors from './colors'
 import RequestDetails from './RequestDetails'
+import MailDetails from './MailDetails'
 
 const logger = new Logger()
 
 export default class MonitorResult extends Component {
 
-  state = { requests: [], request: undefined, showDetails: false }
+    state = { requests: [], request: undefined, showDetails: false, editMailInfo: false }
 
-  componentDidMount() {
-      logger.setCallback((requests) => {
-          this.setState({ requests: Object.assign([], requests) })
-      })
-      this.setState({ requests: logger.getRequests() })
-      logger.enableXHRInterception()
-  }
+    componentDidMount() {
+        logger.setCallback((requests) => {
+            this.setState({ requests: Object.assign([], requests) })
+        })
+        this.setState({ requests: logger.getRequests() })
+        logger.enableXHRInterception()
+    }
 
-  render() {
-      console.log(this.state.requests)
-      return (<View style={styles.container}>
-          <TouchableOpacity style={styles.back} onPress={() => {
-              this.props.navigation.pop()
-          }}><Text style={styles.backTitle}>Back</Text></TouchableOpacity>
-          <FlatList
-              keyExtractor={(item, index) => index.toString()}
-              data={this.state.requests}
-              renderItem={({ item, index }) => {
-                  return (<ResultItem request={item} onPress={() => {
-                      this.setState({ showDetails: true, request: item })
-                  }} />)
-              }}
-          />
-          {this.state.showDetails && <RequestDetails
-              onClose={() => this.setState({ showDetails: false })}
-              request={this.state.request} />}
-      </View>)
-  }
+    render() {
+        console.log(this.state.requests)
+        return (<View style={styles.container}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                <TouchableOpacity style={styles.back} onPress={() => {
+                    this.props.navigation.pop()
+                }}><Text style={styles.backTitle}>Back</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.back} onPress={() => {
+                    this.setState({ editMailInfo: true })
+                }}><Text style={styles.backTitle}>Send By Gmail</Text></TouchableOpacity>
+            </View>
+            <FlatList
+                keyExtractor={(item, index) => index.toString()}
+                data={this.state.requests}
+                renderItem={({ item, index }) => {
+                    return (<ResultItem request={item} onPress={() => {
+                        this.setState({ showDetails: true, request: item })
+                    }} />)
+                }}
+            />
+            {this.state.showDetails && <RequestDetails
+                onClose={() => this.setState({ showDetails: false })}
+                request={this.state.request} />}
+            {this.state.editMailInfo && <MailDetails
+                onClose={() => this.setState({ editMailInfo: false })}
+                sendOutMail={(email, password, subject, body) => logger.sendFeedbackEmail(email, password, subject, body)} />}
+        </View>)
+    }
 }
 
 const styles = StyleSheet.create({
@@ -79,22 +88,26 @@ export const getRequestLogger = () => {
     return logger.getRequests()
 }
 
+export const sendOutEmail = (email, password, subject, message) => {
+    logger.sendFeedbackEmail(email, password, subject, message);
+}
+
 class MonitorButton extends Component {
-  data = []
+    data = []
 
-  setupData(data) {
-  }
+    setupData(data) {
+    }
 
-  constructor(props) {
-      super(props)
-  }
+    constructor(props) {
+        super(props)
+    }
 
-  componentDidMount() {
+    componentDidMount() {
 
-  }
+    }
 
-  render() {
-      return <TouchableOpacity>
-          <View style={styles.record} /></TouchableOpacity>
-  }
+    render() {
+        return <TouchableOpacity>
+            <View style={styles.record} /></TouchableOpacity>
+    }
 }

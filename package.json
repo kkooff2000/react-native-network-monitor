@@ -17,7 +17,8 @@
   "license": "MIT",
   "bugs": {},
   "dependencies": {
-    
+    "react-native-fs": "^2.16.2",
+    "react-native-smtp-mailer": "^1.2.2"
   },
   "homepage": "https://github.com/kkooff2000/react-native-network-monitor.git"
 }
