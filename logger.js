@@ -1,4 +1,6 @@
 import XHRInterceptor from 'react-native/Libraries/Network/XHRInterceptor'
+import RNSmtpMailer from "react-native-smtp-mailer";
+import RNFS from 'react-native-fs';
 let nextXHRId = 0
 
 class NetworkRequestInfo {
@@ -26,6 +28,8 @@ class NetworkRequestInfo {
         this.url = url
     }
 }
+
+export const LOGGER_FILENAME = 'network_monitor_logger.txt'
 
 export default class Logger {
     _requests = []
@@ -118,4 +122,45 @@ export default class Logger {
     getRequests() {
         return this._requests
     }
+
+    sendFeedbackEmail(email, password, subject, message) {
+        this.saveNetworkLogger(LOGGER_FILENAME)
+        .then (response => this.sendMail(LOGGER_FILENAME, email, password, subject, message))
+        .then (response => this.deleteNetworkLogger(LOGGER_FILENAME))
+        .then (response => console.log('SUCCESS'))
+        .catch(error => console.log(error));
+    }
+
+    sendMail(filename, email, password, subject, message) {
+        console.log("logger.sendFeedbackEmail")
+        return RNSmtpMailer.sendMail({
+            mailhost: 'smtp.gmail.com',
+            port: '465',
+            ssl: true,
+            username: email,
+            from: email,
+            password: password,
+            recipients: email,
+            subject: subject,
+            htmlBody: message,
+            attachmentPaths: [this.getPath(filename)],
+            attachmentNames: [filename],
+            attachmentTypes: ["txt"],
+        });
+    }
+
+    saveNetworkLogger(filename) {
+        console.log("logger.saveNetworkLogger")
+        return RNFS.writeFile(this.getPath(filename), JSON.stringify(this.getRequests()), 'utf8');
+    }
+
+    deleteNetworkLogger(filename) {
+        console.log("logger.deleteNetworkLogger")
+        return RNFS.unlink(this.getPath(filename))
+    }
+
+    getPath(filename) {
+        return RNFS.DocumentDirectoryPath + '/' + filename;
+    }
+
 }

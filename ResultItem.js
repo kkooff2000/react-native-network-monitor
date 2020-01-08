@@ -36,7 +36,7 @@ export default class ResultItem extends Component {
             }}>
                 <Text style={[styles.text, styles.method, this.getMethodStyle(this.props.request.method)]}>{this.props.request.method}</Text>
                 <View style={styles.divider} />
-                <Text style={[styles.text, this.getStatusTextColor(this.props.request.status)]}>{this.props.request.url}</Text>
+                <Text style={[styles.text, styles.content, this.getStatusTextColor(this.props.request.status)]}>{this.props.request.url}</Text>
             </TouchableOpacity>
         )
     }
@@ -48,21 +48,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.grey,
         flexDirection: 'row',
-        marginTop: 10,
-        marginBottom: 10,
-        padding: 10,
+        margin: 5,
+        paddingTop: 10,
+        paddingBottom: 10,
         borderRadius: 5
     }, text: {
         color: Colors.white,
-        fontSize: 20,
-        padding: 5,
-        textAlign: 'center'
+        fontSize: 16,
+        textAlign: 'left'
+    }, content: {
+        paddingLeft: 5,
+        paddingRight: 5,
+        flexShrink: 1,
+        flex:1
     }, divider: {
         width: 1,
         backgroundColor: Colors.white,
         height: '100%',
-        marginLeft: 5,
-        marginRight: 5
     }, get: {
         color: Colors.green
     }, post: {
@@ -72,6 +74,10 @@ const styles = StyleSheet.create({
     }, delete: {
         color: Colors.red
     }, method: {
-        width: 100
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        padding: 0,
+        width: 80
     }
 })
