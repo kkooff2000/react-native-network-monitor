@@ -1,4 +1,4 @@
-export default Colors = {
+const Colors = {
     green: '#468966',
     yellow: '#FFF0A5',
     orange: '#FFB03B',
@@ -10,3 +10,5 @@ export default Colors = {
     white: '#FFFFFF',
     shadow: 'rgba(0, 0, 0, 0.8)',
 }
+
+export default Colors
