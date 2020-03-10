@@ -1,6 +1,6 @@
 {
   "name": "react-native-network-monitor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Monitor http request like chrome",
   "main": "app.js",
   "repository": {
