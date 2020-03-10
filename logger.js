@@ -1,6 +1,6 @@
 import XHRInterceptor from 'react-native/Libraries/Network/XHRInterceptor'
-import RNSmtpMailer from "react-native-smtp-mailer";
-import RNFS from 'react-native-fs';
+import RNSmtpMailer from 'react-native-smtp-mailer'
+import RNFS from 'react-native-fs'
 let nextXHRId = 0
 
 class NetworkRequestInfo {
@@ -34,9 +34,7 @@ export const LOGGER_FILENAME = 'network_monitor_logger.txt'
 export default class Logger {
     _requests = []
     _xhrIdMap = {}
-    callback = () => {
-
-    }
+    callback = () => {}
 
     setCallback(callback) {
         this.callback = callback
@@ -98,7 +96,7 @@ export default class Logger {
                 networkInfo.responseContentType = type
                 networkInfo.responseSize = size
                 networkInfo.responseHeaders = responseHeaders
-            }
+            },
         )
 
         XHRInterceptor.setResponseCallback(
@@ -114,7 +112,7 @@ export default class Logger {
                 networkInfo.responseURL = responseURL
                 networkInfo.responseType = responseType
                 this.callback(this._requests)
-            }
+            },
         )
         XHRInterceptor.enableInterception()
     }
@@ -125,14 +123,22 @@ export default class Logger {
 
     sendFeedbackEmail(email, password, subject, message) {
         this.saveNetworkLogger(LOGGER_FILENAME)
-        .then (response => this.sendMail(LOGGER_FILENAME, email, password, subject, message))
-        .then (response => this.deleteNetworkLogger(LOGGER_FILENAME))
-        .then (response => console.log('SUCCESS'))
-        .catch(error => console.log(error));
+            .then(response =>
+                this.sendMail(
+                    LOGGER_FILENAME,
+                    email,
+                    password,
+                    subject,
+                    message,
+                ),
+            )
+            .then(response => this.deleteNetworkLogger(LOGGER_FILENAME))
+            .then(response => console.log('SUCCESS'))
+            .catch(error => console.log(error))
     }
 
     sendMail(filename, email, password, subject, message) {
-        console.log("logger.sendFeedbackEmail")
+        console.log('logger.sendFeedbackEmail')
         return RNSmtpMailer.sendMail({
             mailhost: 'smtp.gmail.com',
             port: '465',
@@ -145,22 +151,25 @@ export default class Logger {
             htmlBody: message,
             attachmentPaths: [this.getPath(filename)],
             attachmentNames: [filename],
-            attachmentTypes: ["txt"],
-        });
+            attachmentTypes: ['txt'],
+        })
     }
 
     saveNetworkLogger(filename) {
-        console.log("logger.saveNetworkLogger")
-        return RNFS.writeFile(this.getPath(filename), JSON.stringify(this.getRequests()), 'utf8');
+        console.log('logger.saveNetworkLogger')
+        return RNFS.writeFile(
+            this.getPath(filename),
+            JSON.stringify(this.getRequests()),
+            'utf8',
+        )
     }
 
     deleteNetworkLogger(filename) {
-        console.log("logger.deleteNetworkLogger")
+        console.log('logger.deleteNetworkLogger')
         return RNFS.unlink(this.getPath(filename))
     }
 
     getPath(filename) {
-        return RNFS.DocumentDirectoryPath + '/' + filename;
+        return RNFS.DocumentDirectoryPath + '/' + filename
     }
-
 }
